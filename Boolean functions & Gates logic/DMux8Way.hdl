@@ -1,0 +1,102 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux8Way.hdl
+
+/**
+ * 8-way demultiplexor:
+ * {a, b, c, d, e, f, g, h} = {in, 0, 0, 0, 0, 0, 0, 0} if sel == 000
+ *                            {0, in, 0, 0, 0, 0, 0, 0} if sel == 001
+ *                            etc.
+ *                            {0, 0, 0, 0, 0, 0, 0, in} if sel == 111
+ */
+
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    	Not (in=sel[0], out=not1);
+	Not (in=sel[1], out=not2);
+	Not (in=sel[2], out=not3);
+
+	And (a=not1, b=in, out=and1);
+	And (a=not2, b=in, out=and2);
+	And (a=not3, b=in, out=and3);
+	And (a=and1,b=and2,out=hh);
+	And (a=hh, b=and3, out=hhh);
+	And (a=in, b=hhh, out=a);
+
+
+	And (a=sel[0], b=in, out=a4);
+	And (a=not2, b=in, out=a5);
+	And (a=not3, b=in, out=a6);
+	And (a=a4, b=a5, out=aa);
+	And (a=aa, b=a6, out=aaa);
+	And (a=in, b=aaa, out=b);
+
+
+
+
+
+	And (a=not1, b=in, out=a7);
+	And (a=sel[1], b=in, out=a8);
+	And (a=not3, b=in, out=a9);
+	And (a=a7, b=a8, out=a0);
+	And (a=a0, b=a9, out=ff);
+	And (a=in, b=ff, out=c);
+
+
+
+	And (a=sel[0], b=in, out=b1);
+	And (a=sel[1], b=in, out=b2);
+	And (a=not3, b=in, out=b3);
+	And (a=b1, b=b2, out=b4);
+	And (a=b3, b=b4, out=b5);
+	And (a=in, b=b5, out=d);
+
+
+
+
+	And (a=not1, b=in, out=b6);
+	And (a=not2, b=in, out=b7);
+	And (a=sel[2], b=in, out=b8);
+	And (a=b6, b=b7, out=b9);
+	And (a=b8, b=b9, out=b0);
+	And (a=in, b=b0, out=e);
+
+
+
+	And (a=sel[0], b=in, out=c1);
+	And (a=not2, b=in, out=c2);
+	And (a=sel[2], b=in, out=c3);
+	And (a=c1, b=c2, out=c4);
+	And (a=c3, b=c4, out=c5);
+	And (a=in, b=c5, out=f);
+
+
+
+
+
+	And (a=not1, b=in, out=c6);
+	And (a=sel[1], b=in, out=c7);
+	And (a=sel[2], b=in, out=c8);
+	And (a=c6, b=c7, out=c9);
+	And (a=c8, b=c9, out=c0);
+	And (a=in, b=c0, out=g);
+
+
+
+
+	And (a=sel[0], b=in, out=v1);
+	And (a=sel[1], b=in, out=v2);
+	And (a=sel[2], b=in, out=v3);
+	And (a=v1, b=v2, out=v4);
+	And (a=v3, b=v4, out=v5);
+	And (a=in, b=v5, out=h);
+
+
+
+	
+
+}
